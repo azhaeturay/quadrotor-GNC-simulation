@@ -464,9 +464,6 @@ phiHat = navState.x(7);
 thetaHat = navState.x(8);
 psiHat = navState.x(9);
 
-gyroBiasHat = ...
-    navState.x(10:12);
-
 accelBiasHat = ...
     navState.x(13:15);
 
@@ -502,13 +499,6 @@ nav = ...
         navState, ...
         accelNED);
 
-
-nav.gyroBias = ...
-    gyroBiasHat;
-
-
-nav.accelBias = ...
-    accelBiasHat;
 
 end
 
@@ -915,6 +905,12 @@ nav.attitudeStd = ...
     sqrt( ...
     diag( ...
     navState.P(7:9,7:9)));
+
+
+%% Bias estimates: present on initialization and every normal update.
+
+nav.gyroBias = x(10:12);
+nav.accelBias = x(13:15);
 
 
 %% GPS update flag

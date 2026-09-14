@@ -1,0 +1,55 @@
+
+--- ESTIMATED-STATE FULL GNC MISSION ---
+
+Maximum mission time: 60.0 s
+IMU / control rate: 100.0 Hz
+GPS rate: 10.0 Hz
+Guidance rate: 50.0 Hz
+
+Guidance advanced to segment 2 at t = 1.50 s
+Guidance advanced to segment 3 at t = 6.84 s
+Guidance advanced to segment 4 at t = 11.88 s
+Guidance advanced to segment 5 at t = 16.94 s
+
+Estimated final waypoint reached at t = 22.58 s
+
+--- MISSION RESULTS ---
+
+Mission completed successfully.
+Mission duration: 22.58 s
+
+TRUE GUIDANCE PERFORMANCE
+RMS cross-track error: 0.108 m
+Max cross-track error: 0.409 m
+True final waypoint error: 0.168 m
+
+ONBOARD GUIDANCE ESTIMATE
+Estimated RMS cross-track error: 0.126 m
+Estimated max cross-track error: 0.777 m
+Estimated final waypoint error: 0.160 m
+
+NAVIGATION POSITION RMSE
+North: 0.0339 m
+East:  0.0574 m
+Down:  0.0907 m
+
+NAVIGATION VELOCITY RMSE
+North: 0.0225 m/s
+East:  0.0202 m/s
+Down:  0.0277 m/s
+
+NAVIGATION ATTITUDE RMSE
+Roll:  0.3624 deg
+Pitch: 0.3488 deg
+Yaw:   0.8007 deg
+
+FINAL TRUE ATTITUDE
+Roll:  -0.138 deg
+Pitch: 1.087 deg
+Yaw:   270.045 deg
+
+GUIDANCE SEGMENT TRANSITIONS
+Segment 2 at t = 1.50 s
+Segment 3 at t = 6.84 s
+Segment 4 at t = 11.88 s
+Segment 5 at t = 16.94 s

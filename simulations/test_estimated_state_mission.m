@@ -47,7 +47,12 @@ projectRoot = ...
     fileparts( ...
     mfilename('fullpath')));
 
-addpath(genpath(projectRoot));
+% Add executable project folders explicitly; exclude local archives/output.
+addpath(projectRoot, ...
+    fullfile(projectRoot, 'config'), fullfile(projectRoot, 'dynamics'), ...
+    fullfile(projectRoot, 'control'), fullfile(projectRoot, 'guidance'), ...
+    fullfile(projectRoot, 'navigation'), fullfile(projectRoot, 'simulations'), ...
+    fullfile(projectRoot, 'utilities'), fullfile(projectRoot, 'validation'));
 
 P = vehicle_params();
 
@@ -1161,369 +1166,77 @@ end
 
 
 %% ================================================================
-% FIGURE 1 — 3-D MISSION
+% REPRODUCIBLE RESULTS AND FIGURE EXPORT (offline only)
 % ================================================================
 
-figure;
-
-plot3( ...
-    positionTrueHistory(1,:), ...
-    positionTrueHistory(2,:), ...
-    -positionTrueHistory(3,:), ...
-    'LineWidth',1.8);
-
-hold on;
-
-
-plot3( ...
-    positionEstimateHistory(1,:), ...
-    positionEstimateHistory(2,:), ...
-    -positionEstimateHistory(3,:), ...
-    '--', ...
-    'LineWidth',1.4);
-
-
-plot3( ...
-    waypoints(:,1), ...
-    waypoints(:,2), ...
-    -waypoints(:,3), ...
-    'o--', ...
-    'LineWidth',1.2, ...
-    'MarkerSize',7);
-
-
-xlabel('North [m]');
-ylabel('East [m]');
-zlabel('Altitude [m]');
-
-title( ...
-    'Estimated-State Full GNC Mission');
-
-legend( ...
-    'True Vehicle', ...
-    'Navigation Estimate', ...
-    'Desired Path', ...
-    'Location','best');
-
-grid on;
-axis equal;
-view(3);
-
-
-%% ================================================================
-% FIGURE 2 — TOP VIEW
-% ================================================================
-
-figure;
-
-plot( ...
-    positionTrueHistory(2,:), ...
-    positionTrueHistory(1,:), ...
-    'LineWidth',1.8);
-
-hold on;
-
-
-plot( ...
-    positionEstimateHistory(2,:), ...
-    positionEstimateHistory(1,:), ...
-    '--', ...
-    'LineWidth',1.4);
-
-
-plot( ...
-    waypoints(:,2), ...
-    waypoints(:,1), ...
-    'o--', ...
-    'LineWidth',1.2, ...
-    'MarkerSize',7);
-
-
-xlabel('East [m]');
-ylabel('North [m]');
-
-title( ...
-    'Estimated-State Lookahead Guidance — Top View');
-
-legend( ...
-    'True Vehicle', ...
-    'Navigation Estimate', ...
-    'Desired Path', ...
-    'Location','best');
-
-grid on;
-axis equal;
-
-
-%% ================================================================
-% FIGURE 3 — VEHICLE SPEED
-% ================================================================
-
-figure;
-
-plot( ...
-    tHistory, ...
-    speedTrueHistory, ...
-    'LineWidth',1.5);
-
-hold on;
-
-
-plot( ...
-    tHistory, ...
-    speedEstimateHistory, ...
-    '--', ...
-    'LineWidth',1.3);
-
-
-xlabel('Time [s]');
-ylabel('Vehicle Speed [m/s]');
-
-title('Mission Speed');
-
-legend( ...
-    'True', ...
-    'Estimated');
-
-grid on;
-
-
-%% ================================================================
-% FIGURE 4 — CROSS-TRACK ERROR
-% ================================================================
-
-figure;
-
-plot( ...
-    tHistory, ...
-    crossTrackTrueHistory, ...
-    'LineWidth',1.5);
-
-hold on;
-
-
-plot( ...
-    tHistory, ...
-    crossTrackEstimateHistory, ...
-    '--', ...
-    'LineWidth',1.3);
-
-
-xlabel('Time [s]');
-ylabel('Cross-Track Error [m]');
-
-title('Path-Following Error');
-
-legend( ...
-    'Truth-Based Error', ...
-    'Onboard Estimated Error');
-
-grid on;
-
-
-%% ================================================================
-% FIGURE 5 — YAW TRACKING
-% ================================================================
-
-actualYaw = ...
-    unwrap( ...
-    attitudeTrueHistory(3,:));
-
-
-estimatedYaw = ...
-    unwrap( ...
-    attitudeEstimateHistory(3,:));
-
-
-commandedYaw = ...
-    unwrap( ...
-    yawCmdHistory);
-
-
-figure;
-
-plot( ...
-    tHistory, ...
-    rad2deg(actualYaw), ...
-    'LineWidth',1.5);
-
-hold on;
-
-
-plot( ...
-    tHistory, ...
-    rad2deg(estimatedYaw), ...
-    '--', ...
-    'LineWidth',1.3);
-
-
-plot( ...
-    tHistory, ...
-    rad2deg(commandedYaw), ...
-    ':', ...
-    'LineWidth',1.4);
-
-
-xlabel('Time [s]');
-ylabel('Yaw [deg]');
-
-title('Guidance Heading');
-
-legend( ...
-    'True Yaw', ...
-    'Estimated Yaw', ...
-    'Command');
-
-grid on;
-
-
-%% ================================================================
-% FIGURE 6 — NAVIGATION ESTIMATION ERROR
-% ================================================================
-
-figure;
-
-
-subplot(3,1,1);
-
-plot( ...
-    tHistory, ...
-    positionEstimationError');
-
-grid on;
-
-ylabel('Position Error [m]');
-
-title('Mission Navigation Estimation Error');
-
-legend('N','E','D');
-
-
-subplot(3,1,2);
-
-plot( ...
-    tHistory, ...
-    velocityEstimationError');
-
-grid on;
-
-ylabel('Velocity Error [m/s]');
-
-legend('N','E','D');
-
-
-subplot(3,1,3);
-
-plot( ...
-    tHistory, ...
-    rad2deg( ...
-    attitudeEstimationError'));
-
-grid on;
-
-ylabel('Attitude Error [deg]');
-xlabel('Time [s]');
-
-legend('\phi','\theta','\psi');
-
-
-%% ================================================================
-% FIGURE 7 — ATTITUDE TRACKING
-% ================================================================
-
-figure;
-
-attitudeNames = ...
-    {'Roll \phi', ...
-     'Pitch \theta', ...
-     'Yaw \psi'};
-
-
-for axisIdx = 1:3
-
-    subplot(3,1,axisIdx);
-
-    plot( ...
-        tHistory, ...
-        rad2deg( ...
-        attitudeTrueHistory(axisIdx,:)), ...
-        'LineWidth',1.5);
-
-    hold on;
-
-
-    plot( ...
-        tHistory, ...
-        rad2deg( ...
-        attitudeEstimateHistory(axisIdx,:)), ...
-        '--', ...
-        'LineWidth',1.3);
-
-
-    plot( ...
-        tHistory, ...
-        rad2deg( ...
-        attitudeCmdHistory(axisIdx,:)), ...
-        ':', ...
-        'LineWidth',1.3);
-
-
-    grid on;
-
-    ylabel( ...
-        sprintf('%s [deg]', ...
-        attitudeNames{axisIdx}));
-
-    if axisIdx == 1
-
-        title('Mission Attitude Tracking');
-
-    end
-
-    if axisIdx == 3
-
-        xlabel('Time [s]');
-
-    end
-
+results.time = tHistory;
+results.waypoints = waypoints;
+results.parameters = P;
+results.missionComplete = missionComplete;
+results.stateTrue = xTrueHistory;
+results.positionTrue = positionTrueHistory;
+results.positionEstimate = positionEstimateHistory;
+results.velocityTrue = velocityTrueHistory;
+results.velocityEstimate = velocityEstimateHistory;
+results.attitudeTrue = attitudeTrueHistory;
+results.attitudeEstimate = attitudeEstimateHistory;
+results.positionCommand = positionCmdHistory;
+results.attitudeCommand = attitudeCmdHistory;
+results.rotorThrust = rotorThrustHistory;
+results.totalThrustCommand = TcmdHistory(validIdx);
+results.momentCommand = tauCmdHistory(:,validIdx);
+results.bodyRateCommand = omegaCmdHistory(:,validIdx);
+results.gyroBiasEstimate = gyroBiasEstimateHistory;
+results.accelBiasEstimate = accelBiasEstimateHistory;
+results.crossTrackTrue = crossTrackTrueHistory;
+results.crossTrackEstimate = crossTrackEstimateHistory;
+results.segment = segmentHistory;
+results.transitionTimes = transitionTimes;
+results.transitionSegments = transitionSegments;
+results.gpsAvailable = gpsAvailableHistory;
+results.gpsPosition = gpsPositionHistory;
+results.navigationFinalState = navState.x;
+results.navigationFinalCovariance = navState.P;
+results.randomStateAfterRun = rng;
+results.metadata.matlabVersion = version;
+results.metadata.matlabRelease = version('-release');
+results.metadata.platform = computer;
+results.metadata.seed = 12;
+results.metadata.generator = results.randomStateAfterRun.Type;
+results.metadata.imuRateHz = imuRate;
+results.metadata.gpsRateHz = imuRate/gpsStride;
+results.metadata.guidanceRateHz = imuRate/guidanceStride;
+results.metadata.magnetometerRateHz = imuRate;
+results.metadata.integration = 'Fixed-step RK4, rotor thrust held over dt';
+
+results.metrics.duration_s = tHistory(end);
+results.metrics.trueCrossTrackRMS_m = rmsTrueCrossTrack;
+results.metrics.trueCrossTrackMax_m = maxTrueCrossTrack;
+results.metrics.trueFinalWaypointError_m = trueFinalPositionError;
+results.metrics.estimatedCrossTrackRMS_m = rmsEstimatedCrossTrack;
+results.metrics.estimatedCrossTrackMax_m = maxEstimatedCrossTrack;
+results.metrics.estimatedFinalWaypointError_m = estimatedFinalPositionError;
+results.metrics.positionRMSE_m = positionNavRMSE;
+results.metrics.velocityRMSE_mps = velocityNavRMSE;
+results.metrics.attitudeRMSE_deg = attitudeNavRMSE;
+results.metrics.finalTrueAttitude_deg = rad2deg(attitudeTrueHistory(:,end));
+
+% Quantify clipping from the same recorded desired wrench; no control changes.
+unconstrainedThrust = allocation_matrix(P) \ ...
+    [results.totalThrustCommand; results.momentCommand];
+clippedSamples = any(unconstrainedThrust < P.minRotorThrust | ...
+    unconstrainedThrust > P.maxRotorThrust, 1);
+results.metrics.clippedCommandSamples = nnz(clippedSamples);
+results.metrics.commandSamples = numel(tHistory);
+
+outputDir = fullfile(projectRoot, 'results');
+if ~isfolder(outputDir)
+    mkdir(outputDir);
 end
-
-
-legend( ...
-    'Truth', ...
-    'Estimate', ...
-    'Command');
-
-
-%% ================================================================
-% FIGURE 8 — ROTOR THRUSTS
-% ================================================================
-
-figure;
-
-plot( ...
-    tHistory, ...
-    rotorThrustHistory', ...
-    'LineWidth',1.1);
-
-grid on;
-
-xlabel('Time [s]');
-ylabel('Rotor Thrust [N]');
-
-title('Mission Rotor Thrust Commands');
-
-
-rotorLabels = ...
-    arrayfun( ...
-        @(idx) sprintf('Rotor %d',idx), ...
-        1:numRotors, ...
-        'UniformOutput',false);
-
-
-legend( ...
-    rotorLabels, ...
-    'Location','best');
+save(fullfile(outputDir, 'full_gnc_mission.mat'), 'results');
+write_mission_metrics(results, fullfile(outputDir, 'mission_metrics.json'));
+plot_mission_results(results, fullfile(projectRoot, 'figures'));
+fprintf('Saved run data to results/ and 300-dpi figures to figures/.\n');
 
 
 %% ================================================================

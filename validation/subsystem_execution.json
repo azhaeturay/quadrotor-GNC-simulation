@@ -1,0 +1,97 @@
+[
+  {
+    "script": "test_allocation.m",
+    "completedWithoutError": true,
+    "error": ""
+  },
+  {
+    "script": "test_altitude_controller.m",
+    "completedWithoutError": true,
+    "error": ""
+  },
+  {
+    "script": "test_attitude_3axis.m",
+    "completedWithoutError": true,
+    "error": ""
+  },
+  {
+    "script": "test_attitude_controller.m",
+    "completedWithoutError": true,
+    "error": ""
+  },
+  {
+    "script": "test_attitude_estimator.m",
+    "completedWithoutError": true,
+    "error": ""
+  },
+  {
+    "script": "test_attitude_estimator_mag.m",
+    "completedWithoutError": true,
+    "error": ""
+  },
+  {
+    "script": "test_dynamics.m",
+    "completedWithoutError": true,
+    "error": ""
+  },
+  {
+    "script": "test_estimated_state_hover.m",
+    "completedWithoutError": true,
+    "error": ""
+  },
+  {
+    "script": "test_kalman_1d.m",
+    "completedWithoutError": true,
+    "error": ""
+  },
+  {
+    "script": "test_kalman_3d.m",
+    "completedWithoutError": true,
+    "error": ""
+  },
+  {
+    "script": "test_lookahead_mission.m",
+    "completedWithoutError": true,
+    "error": ""
+  },
+  {
+    "script": "test_navigation_estimator.m",
+    "completedWithoutError": true,
+    "error": ""
+  },
+  {
+    "script": "test_position_controller.m",
+    "completedWithoutError": true,
+    "error": ""
+  },
+  {
+    "script": "test_rate_controller.m",
+    "completedWithoutError": true,
+    "error": ""
+  },
+  {
+    "script": "test_rotor_plant.m",
+    "completedWithoutError": true,
+    "error": ""
+  },
+  {
+    "script": "test_sensor_stream.m",
+    "completedWithoutError": true,
+    "error": ""
+  },
+  {
+    "script": "test_sensor_timing.m",
+    "completedWithoutError": true,
+    "error": ""
+  },
+  {
+    "script": "test_sensors.m",
+    "completedWithoutError": true,
+    "error": ""
+  },
+  {
+    "script": "test_waypoint_mission.m",
+    "completedWithoutError": true,
+    "error": ""
+  }
+]
