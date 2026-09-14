@@ -57,21 +57,24 @@ The final implementation includes:
 ## Architecture
 
 ```mermaid
-flowchart TD
-    G[Lookahead guidance · 50 Hz] --> P[Horizontal position / altitude control]
-    P --> A[Attitude control]
-    A --> R[Body-rate control]
-    R --> C[Control allocation and thrust limits]
-    C --> T[Individual rotor thrusts]
-    T --> D[Nonlinear 6-DOF plant · RK4]
-    D --> S[Simulated IMU / GPS / magnetometer]
-    S --> E[15-state INS/GPS EKF]
-    E -->|Estimated position| G
-    E -->|Estimated position, velocity, attitude| P
-    E -->|Estimated attitude| A
-    S -->|Calibrated gyro measurement| R
-    D -.-> V[Offline truth-based validation]
-    E -.-> V
+flowchart LR
+    E["15-State INS/GPS EKF<br/>Estimated State"]
+    G["Guidance & Cascaded Control<br/>Lookahead Guidance<br/>Position / Altitude<br/>Attitude<br/>Body-Rate Control"]
+    C["Control Allocation<br/>& Thrust Limits"]
+    D["Individual Rotor Thrusts<br/>+<br/>Nonlinear 6-DOF Plant · RK4"]
+    S["Simulated Sensors<br/>IMU · GPS · Magnetometer"]
+    V["Offline Truth-Based<br/>Validation"]
+
+    E -->|Estimated state| G
+    G --> C
+    C --> D
+    D --> S
+    S -->|Sensor measurements| E
+
+    S -->|Calibrated gyro rate| G
+
+    D -.->|Truth| V
+    E -.->|Estimates| V
 ```
 
 Truth drives only the simulated plant, sensor generation, and offline metrics/plots. Guidance and the outer control loops receive navigation estimates. The rate loop uses measured gyro rates with the configured constant gyro calibration bias removed; it does not use true body rates or the EKF bias estimate.
