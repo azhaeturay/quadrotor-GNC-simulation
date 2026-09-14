@@ -1,0 +1,57 @@
+{
+  "metadata": {
+    "matlabVersion": "26.1.0.3346908 (R2026a) Update 5",
+    "matlabRelease": "2026a",
+    "platform": "MACA64",
+    "seed": 12,
+    "generator": "twister",
+    "imuRateHz": 100,
+    "gpsRateHz": 10,
+    "guidanceRateHz": 50,
+    "magnetometerRateHz": 100,
+    "integration": "Fixed-step RK4, rotor thrust held over dt"
+  },
+  "missionComplete": true,
+  "metrics": {
+    "duration_s": 22.580000000000002,
+    "trueCrossTrackRMS_m": 0.1080013796445923,
+    "trueCrossTrackMax_m": 0.40874920911106716,
+    "trueFinalWaypointError_m": 0.16815093242106732,
+    "estimatedCrossTrackRMS_m": 0.12600995469858564,
+    "estimatedCrossTrackMax_m": 0.77678271551020428,
+    "estimatedFinalWaypointError_m": 0.15982658781408146,
+    "positionRMSE_m": [
+      0.0339323894995877,
+      0.057372488086532704,
+      0.090687237596709311
+    ],
+    "velocityRMSE_mps": [
+      0.022514921673432636,
+      0.020190599402289143,
+      0.027734044158609292
+    ],
+    "attitudeRMSE_deg": [
+      0.36235201206446938,
+      0.34879086913020557,
+      0.80073330419621425
+    ],
+    "finalTrueAttitude_deg": [
+      -0.138148074446185,
+      1.0869972299709239,
+      270.04536301039485
+    ],
+    "clippedCommandSamples": 7,
+    "commandSamples": 2259
+  },
+  "finalTruePositionNED_m": [
+    -0.025007556205052944,
+    0.16338702081058021,
+    -2.0308875320698903
+  ],
+  "finalWaypointNED_m": [
+    0,
+    0,
+    -2
+  ],
+  "finalEstimatedSpeed_mps": 0.14913252873200855
+}
