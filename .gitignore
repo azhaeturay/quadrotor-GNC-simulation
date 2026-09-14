@@ -1,0 +1,33 @@
+# macOS metadata and archive resource forks
+.DS_Store
+._*
+__MACOSX/
+.Spotlight-V100/
+.Trashes/
+
+# MATLAB autosave, editor backups, and local preferences
+*.asv
+*.m~
+*~
+*.tmp
+*.bak
+matlab.prf
+matlab_crash_dump.*
+java.log.*
+hs_err_pid*
+
+# Generated MATLAB data, figures, caches, and build outputs
+*.mat
+*.fig
+*.mex*
+*.slxc
+slprj/
+codegen/
+*_ert_rtw/
+*_grt_rtw/
+
+# Local run outputs and preserved pre-cleanup working copy
+/results/
+/.validation/
+
+# Exported figures/*.png and validation/reference_metrics.json are intentional.
